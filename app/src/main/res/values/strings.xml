@@ -4,5 +4,46 @@
     <string name="app_name">ClassOwl</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- E RegistrationFragment -->
+    <string name="registration_action_bar_title">Sign</string>
+
+    <string name="registration_schools_hint">Find school</string>
+    <string name="registration_schools_contentdesc">List of schools</string>
+
+    <string name="registration_users_hint">I am</string>
+    <string name="registration_users_contentdesc">Type of the user</string>
+
+    <string name="registration_firstname_hint">First Name</string>
+    <string name="registration_firstname_contentdesc">First name</string>
+
+    <string name="registration_lastname_hint">Last Name</string>
+    <string name="registration_lastname_contentdesc">Last Name</string>
+
+    <string name="registration_email_hint">Email</string>
+    <string name="registration_email_contentdesc">Email</string>
+
+    <string name="registration_password_hint">Password</string>
+    <string name="registration_password_contentdesc">Password</string>
+
+    <string name="registration_signup_text">Sign up</string>
+    <string name="registration_signup_contentdesc">Sign up button</string>
+
+    <string name="registration_termsandconds_text">
+        By clicking "Sign up" you agree with\n
+        <a href="https://www.classowl.com/terms">Terms and Conditions</a>
+    </string>
+
+    <string-array name="registration_user_type">
+        <item>Student</item>
+        <item>Teacher</item>
+    </string-array>
+    <!-- X RegistrationFragment -->
+
+    <string-array name="registration_schools">
+        <item>Warsaw University</item>
+        <item>Warsaw University of Technology</item>
+    </string-array>
 
 </resources>
