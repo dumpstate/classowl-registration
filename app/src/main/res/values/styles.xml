@@ -9,6 +9,7 @@
         <item name="android:buttonStyle">@style/ClassOwlButton</item>
         <item name="android:editTextStyle">@style/ClassOwlEditText</item>
         <item name="android:spinnerStyle">@style/ClassOwlSpinner</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <!-- E AcionBar styles -->
