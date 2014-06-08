@@ -92,11 +92,9 @@ public class RegistrationFragment extends Fragment {
 
     private void restoreViewState() {
         if(mData.mSchool >= 0) {
-            Log.d("ALBERT", "restoreViewState schools: " + mData.mSchool);
             mViewHolder.mSchoolsSpinner.setSelection(mData.mSchool);
         }
         if(mData.mUserType >= 0) {
-            Log.d("ALBERT", "restoreViewState user: " + mData.mUserType);
             mViewHolder.mUserSpinner.setSelection(mData.mUserType);
         }
         mViewHolder.mFirstNameEditText.setText(mData.mFirstName);
@@ -159,7 +157,6 @@ public class RegistrationFragment extends Fragment {
         mViewHolder.mSchoolsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.w("ALBERT", "schools selected: " + position);
                 enableButton();
                 if(view != null && mViewHolder.mSchoolsSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mSchoolsSpinner.getSelectedItem()).isHint())
@@ -171,7 +168,6 @@ public class RegistrationFragment extends Fragment {
         mViewHolder.mUserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.w("ALBERT", "user selected: " + position);
                 enableButton();
                 if(view != null && mViewHolder.mUserSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mUserSpinner.getSelectedItem()).isHint())

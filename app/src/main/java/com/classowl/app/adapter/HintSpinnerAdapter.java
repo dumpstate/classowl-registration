@@ -37,7 +37,6 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
-        android.util.Log.w("ALBERT", "setSelection " + hint + ", : " + (items.size() - 1));
         spinner.setSelection(items.size() - 1);
     }
 
