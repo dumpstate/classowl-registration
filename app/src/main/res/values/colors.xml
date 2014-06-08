@@ -7,7 +7,9 @@
     <item name="background" type="color">#FF24324f</item>
 
     <item name="button_background" type="color">#FF3594D0</item>
+    <item name="button_background_disabled" type="color">#FF919CA2</item>
     <item name="button_text" type="color">#FFFFFFFF</item>
+    <item name="button_text_disabled" type="color">#FFDDDDDD</item>
 
     <item name="text" type="color">#FF485770</item>
     <item name="hyperlink_text" type="color">#FF3793D0</item>

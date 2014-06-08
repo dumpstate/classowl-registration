@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.classowl.app.R;
 import com.classowl.app.adapter.HintSpinnerAdapter;
@@ -193,6 +195,14 @@ public class RegistrationFragment extends Fragment {
         final View actionBarView = getActivity().getActionBar().getCustomView();
         final TextView title = (TextView)actionBarView.findViewById(R.id.action_bar_title);
         title.setText(R.string.registration_action_bar_title);
+
+        final ImageView back = (ImageView)actionBarView.findViewById(R.id.action_bar_back_arrow);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
     }
 
     private void initSpinners() {

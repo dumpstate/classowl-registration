@@ -2,7 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_size</item>
         <item name="android:actionBarStyle">@style/ClassOwlActionBar</item>
+        <item name="android:buttonStyle">@style/ClassOwlButton</item>
+        <item name="android:editTextStyle">@style/ClassOwlEditText</item>
+        <item name="android:spinnerStyle">@style/ClassOwlSpinner</item>
     </style>
 
     <!-- E AcionBar styles -->
@@ -19,10 +25,25 @@
     </style>
     <!-- X AcionBar styles -->
 
+    <!-- E Widget styles -->
+    <style name="ClassOwlButton" parent="android:style/Widget.Button">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@drawable/button_text</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="ClassOwlEditText" parent="android:style/Widget.EditText">
+        <item name="android:background">@color/input_item_background</item>
+    </style>
+
+    <style name="ClassOwlSpinner" parent="android:style/Widget.Spinner">
+        <item name="android:background">@color/input_item_background</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <!-- X Widget styles -->
+
     <!-- E RegistrationFragment -->
     <style name="registration_input_item">
-        <item name="android:background">@color/input_item_background</item>
-
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/registration_input_item_height</item>
 
@@ -38,17 +59,17 @@
     </style>
 
     <style name="registration_edit_text" parent="registration_input_item">
-
     </style>
 
     <style name="registration_button" parent="registration_input_item">
-        <item name="android:background">@color/button_background</item>
+    </style>
+
+    <style name="registration_spinner" parent="registration_input_item">
     </style>
 
     <style name="registration_text_item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>

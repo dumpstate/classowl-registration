@@ -3,7 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="text_size">18dp</dimen>
+
     <dimen name="action_bar_title_text_size">22dp</dimen>
+    <dimen name="action_bar_back_arrow_height">15dp</dimen>
 
     <!-- E RegistrationFragment -->
     <dimen name="registration_input_item_left_margin">30dp</dimen>
