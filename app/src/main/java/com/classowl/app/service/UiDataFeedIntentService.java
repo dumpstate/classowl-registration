@@ -62,17 +62,10 @@ public class UiDataFeedIntentService extends IntentService {
         if(intent.hasExtra(Constants.MSG_TYPE)) {
             switch(intent.getIntExtra(Constants.MSG_TYPE, -1)) {
                 case Constants.MSG_GET_SCHOOLS: {
-                    Log.w("ALBERT", "SCHOOLS: " + get(Constants.HTTP_SCHOOLS_URL));
-
-
-                    SchoolsMsg.School[] schools = new SchoolsMsg.School[2];
-                    schools[0] = new SchoolsMsg.School(0, "Stanford");
-                    schools[1] = new SchoolsMsg.School(1, "Oxford");
-
-                    Intent i = new Intent(Constants.SCHOOLS_ACTION);
+                    final Intent i = new Intent(Constants.SCHOOLS_ACTION);
                     i.putExtra(
                             Constants.SCHOOLS_DATA,
-                            new SchoolsMsg(schools));
+                            SchoolsMsg.fromJsonStr(get(Constants.HTTP_SCHOOLS_URL)));
                     mBroadcastManager.sendBroadcast(i);
                     break;
                 }
