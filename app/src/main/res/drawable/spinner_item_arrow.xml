@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetTop="17dp"
-    android:insetBottom="17dp"
-    android:insetLeft="60dp">
-    <bitmap android:src="@drawable/spinner_arrow" />
-</inset>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_enabled="true"
+        android:drawable="@drawable/spinner_item_arrow_enabled" />
+    <item
+        android:state_enabled="false"
+        android:drawable="@drawable/spinner_arrow_empty" />
+</selector>

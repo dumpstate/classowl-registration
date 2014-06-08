@@ -267,12 +267,7 @@ public class RegistrationFragment extends Fragment {
 
     private void initSpinners() {
         initSchoolsSpinner();
-
-        // initialize user type spinner
-        initSpinner(
-                mViewHolder.mUserSpinner,
-                R.array.registration_user_type,
-                R.string.registration_users_hint);
+        initUserTypeSpinner();
     }
 
     private void initSchoolsSpinner() {
@@ -293,6 +288,13 @@ public class RegistrationFragment extends Fragment {
                     getString(R.string.registration_schools_hint)
             );
         }
+    }
+
+    private void initUserTypeSpinner() {
+        initSpinner(
+                mViewHolder.mUserSpinner,
+                R.array.registration_user_type,
+                R.string.registration_users_hint);
     }
 
     private void initSpinner(final Spinner spinner, final int arrRes, final int hintId) {

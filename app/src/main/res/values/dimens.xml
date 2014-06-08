@@ -8,6 +8,11 @@
     <dimen name="action_bar_title_text_size">22dp</dimen>
     <dimen name="action_bar_back_arrow_height">15dp</dimen>
 
+    <dimen name="spinner_drawable_inset_top">17dp</dimen>
+    <dimen name="spinner_drawable_inset_bottom">17dp</dimen>
+    <dimen name="spinner_drawable_inset_left">50dp</dimen>
+    <dimen name="spinner_drawable_inset_right">10dp</dimen>
+
     <!-- E RegistrationFragment -->
     <dimen name="registration_input_item_left_margin">30dp</dimen>
     <dimen name="registration_input_item_right_margin">30dp</dimen>
