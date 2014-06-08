@@ -35,6 +35,13 @@
         <a href="https://www.classowl.com/terms">Terms and Conditions</a>
     </string>
 
+    <string name="registration_toast_failed_to_retrieve">
+        Failed to retrieve data. Retrying...
+    </string>
+    <string name="registration_toast_unable_to_connect">
+        No Internet access.
+    </string>
+
     <string-array name="registration_user_type">
         <item>Student</item>
         <item>Teacher</item>

@@ -21,6 +21,7 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.classowl.app.R;
 import com.classowl.app.adapter.HintSpinnerAdapter;
@@ -66,12 +67,6 @@ public class RegistrationFragment extends Fragment {
         restoreViewState();
 
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        requestFeedUi();
     }
 
     @Override
@@ -157,6 +152,7 @@ public class RegistrationFragment extends Fragment {
         initHyperlink();
         initOnChangeListeners();
         initActionBar();
+        requestFeedUi();
     }
 
     private void initOnChangeListeners() {
@@ -323,17 +319,25 @@ public class RegistrationFragment extends Fragment {
             final SchoolsMsg schools =
                     (SchoolsMsg)intent.getSerializableExtra(Constants.SCHOOLS_DATA);
             if(schools != null) {
-                mData.mSchools = schools.mSchools;
+                if(schools.mSchools != null && schools.mSchools.length > 0) {
+                    mData.mSchools = schools.mSchools;
 
-                HintSpinnerAdapter.setAdapter(
-                        mContext,
-                        mViewHolder.mSchoolsSpinner,
-                        getSchoolsNames(schools.mSchools),
-                        getString(R.string.registration_schools_hint)
-                );
+                    HintSpinnerAdapter.setAdapter(
+                            mContext,
+                            mViewHolder.mSchoolsSpinner,
+                            getSchoolsNames(schools.mSchools),
+                            getString(R.string.registration_schools_hint)
+                    );
 
-                mViewHolder.mSchoolsSpinner.setEnabled(true);
-                mViewHolder.mSchoolsProgressBar.setVisibility(View.GONE);
+                    mViewHolder.mSchoolsSpinner.setEnabled(true);
+                    mViewHolder.mSchoolsProgressBar.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(
+                            mContext,
+                            getString(R.string.registration_toast_unable_to_connect),
+                            Toast.LENGTH_SHORT).show();
+                    mViewHolder.mSchoolsProgressBar.setVisibility(View.GONE);
+                }
             }
         }
     };
