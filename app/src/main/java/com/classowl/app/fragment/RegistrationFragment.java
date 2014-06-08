@@ -1,13 +1,17 @@
 package com.classowl.app.fragment;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +19,13 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.classowl.app.R;
 import com.classowl.app.adapter.HintSpinnerAdapter;
 import com.classowl.app.fragment.data.RegistrationFragmentData;
+import com.classowl.app.message.Constants;
+import com.classowl.app.message.SchoolsMsg;
+import com.classowl.app.service.UiDataFeedIntentService;
 import com.classowl.app.viewholder.RegistrationViewHolder;
 
 import java.util.Arrays;
@@ -31,6 +37,7 @@ public class RegistrationFragment extends Fragment {
     private RegistrationFragmentData mData;
 
     private Context mContext;
+    private LocalBroadcastManager mBroadcastManager;
 
     public RegistrationFragment() { /* Required empty public constructor */ }
 
@@ -39,9 +46,8 @@ public class RegistrationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mContext = getActivity();
+        mBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         mData = RegistrationFragmentData.get(getArguments());
-
-
     }
 
     @Override
@@ -54,6 +60,20 @@ public class RegistrationFragment extends Fragment {
         restoreViewState();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBroadcastManager.registerReceiver(
+                mUiDataFeedBroadcastReceiver,
+                new IntentFilter(Constants.SCHOOLS_ACTION));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBroadcastManager.unregisterReceiver(mUiDataFeedBroadcastReceiver);
     }
 
     @Override
@@ -180,6 +200,10 @@ public class RegistrationFragment extends Fragment {
         mViewHolder.mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(mContext, UiDataFeedIntentService.class);
+                intent.putExtra(Constants.MSG_TYPE, Constants.MSG_GET_SCHOOLS);
+                mContext.startService(intent);
+
                 updateData();
                 showData();
             }
@@ -223,5 +247,13 @@ public class RegistrationFragment extends Fragment {
                 Arrays.asList(getResources().getStringArray(arrRes)),
                 getString(hintId));
     }
+
+    private BroadcastReceiver mUiDataFeedBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final SchoolsMsg schools = (SchoolsMsg)intent.getSerializableExtra(Constants.SCHOOLS_DATA);
+            Log.w("ALBERT", "schools: " + schools);
+        }
+    };
 
 }
