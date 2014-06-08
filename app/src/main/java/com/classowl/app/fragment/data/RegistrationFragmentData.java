@@ -3,6 +3,8 @@ package com.classowl.app.fragment.data;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.classowl.app.model.School;
+
 import junit.framework.Assert;
 
 import org.json.JSONException;
@@ -17,6 +19,7 @@ public class RegistrationFragmentData {
     private static final String ARG_LAST_NAME = "reg_last_name";
     private static final String ARG_EMAIL = "reg_email";
     private static final String ARG_PASSWORD = "reg_password";
+    private static final String ARG_SCHOOLS = "reg_schools";
 
     public static RegistrationFragmentData get(final Bundle bundle) {
         final RegistrationFragmentData data = new RegistrationFragmentData();
@@ -28,6 +31,7 @@ public class RegistrationFragmentData {
             data.mLastName = bundle.getString(ARG_LAST_NAME);
             data.mEmail = bundle.getString(ARG_EMAIL);
             data.mPassword = bundle.getString(ARG_PASSWORD);
+            data.mSchools = (School[])bundle.getSerializable(ARG_SCHOOLS);
         }
 
         return data;
@@ -42,6 +46,7 @@ public class RegistrationFragmentData {
         bundle.putString(ARG_LAST_NAME, mLastName);
         bundle.putString(ARG_EMAIL, mEmail);
         bundle.putString(ARG_PASSWORD, mPassword);
+        bundle.putSerializable(ARG_SCHOOLS, mSchools);
 
         return bundle;
     }
@@ -56,6 +61,7 @@ public class RegistrationFragmentData {
             jObject.put(ARG_LAST_NAME, mLastName);
             jObject.put(ARG_EMAIL, mLastName);
             jObject.put(ARG_PASSWORD, mPassword);
+            jObject.put(ARG_SCHOOLS, mSchools);
         } catch(JSONException e) {
             Log.e(TAG, "JSONException", e);
         }
@@ -63,10 +69,16 @@ public class RegistrationFragmentData {
         return jObject;
     }
 
-    public int mSchool;
-    public int mUserType;
+    @Override
+    public String toString() {
+        return toJSON().toString();
+    }
+
+    public int mSchool = -1;
+    public int mUserType = -1;
     public String mFirstName;
     public String mLastName;
     public String mEmail;
     public String mPassword;
+    public School[] mSchools;
 }

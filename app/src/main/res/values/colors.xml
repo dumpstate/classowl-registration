@@ -8,14 +8,15 @@
 
     <item name="button_background" type="color">#FF3594D0</item>
     <item name="button_background_disabled" type="color">#FF919CA2</item>
-    <item name="button_text" type="color">#FFFFFFFF</item>
+    <item name="button_text_color" type="color">#FFFFFFFF</item>
     <item name="button_text_disabled" type="color">#FFDDDDDD</item>
 
-    <item name="text" type="color">#FF485770</item>
-    <item name="hyperlink_text" type="color">#FF3793D0</item>
+    <item name="text" type="color">#FF58595B</item>
+    <item name="text_secondary" type="color">#FF485770</item>
+    <item name="text_hyperlink" type="color">#FF3793D0</item>
 
     <item name="input_item_background" type="color">#FFFFFFFF</item>
     <item name="input_item_hint" type="color">#FFB3B3B3</item>
-    <item name="input_item_text" type="color">#FF979799</item>
+    <item name="input_item_text_color" type="color">#FF58595B</item>
 
 </resources>

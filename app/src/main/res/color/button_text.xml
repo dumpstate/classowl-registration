@@ -3,5 +3,5 @@
     <item
         android:state_enabled="false"
         android:color="@color/button_text_disabled" />
-    <item android:color="@color/button_text" />
+    <item android:color="@color/button_text_color" />
 </selector>

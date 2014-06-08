@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.classowl.app.R;
+
 import junit.framework.Assert;
 
 import java.util.ArrayList;
@@ -28,10 +30,14 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
         items.add(new Item(hint, true));
 
         final HintSpinnerAdapter adapter =
-                new HintSpinnerAdapter(context, android.R.layout.simple_spinner_item, items);
+                new HintSpinnerAdapter(
+                        context,
+                        R.layout.spinner_item,
+                        items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
+        android.util.Log.w("ALBERT", "setSelection " + hint + ", : " + (items.size() - 1));
         spinner.setSelection(items.size() - 1);
     }
 

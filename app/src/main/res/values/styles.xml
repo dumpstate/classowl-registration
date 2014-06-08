@@ -28,12 +28,14 @@
     <!-- E Widget styles -->
     <style name="ClassOwlButton" parent="android:style/Widget.Button">
         <item name="android:background">@drawable/button_background</item>
-        <item name="android:textColor">@drawable/button_text</item>
+        <item name="android:textColor">@color/button_text</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <style name="ClassOwlEditText" parent="android:style/Widget.EditText">
         <item name="android:background">@color/input_item_background</item>
+        <item name="android:textColor">@color/input_item_text_color</item>
+        <item name="android:textColorHint">@color/input_item_hint</item>
     </style>
 
     <style name="ClassOwlSpinner" parent="android:style/Widget.Spinner">
@@ -72,6 +74,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <style name="registration_space">

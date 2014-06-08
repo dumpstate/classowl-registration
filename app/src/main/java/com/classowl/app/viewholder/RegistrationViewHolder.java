@@ -3,6 +3,7 @@ package com.classowl.app.viewholder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class RegistrationViewHolder {
         RegistrationViewHolder holder = new RegistrationViewHolder();
 
         holder.mSchoolsSpinner = (Spinner)rootView.findViewById(R.id.registration_schools_spinner);
+        holder.mSchoolsProgressBar = (ProgressBar)rootView.findViewById(R.id.registration_schools_progress_bar);
         holder.mUserSpinner = (Spinner)rootView.findViewById(R.id.registration_user_spinner);
         holder.mFirstNameEditText = (EditText)rootView.findViewById(R.id.registration_firstname_edittext);
         holder.mLastNameEditText = (EditText)rootView.findViewById(R.id.registration_lastname_edittext);
@@ -27,6 +29,7 @@ public class RegistrationViewHolder {
         holder.mTermsAndCondTextView = (TextView)rootView.findViewById(R.id.registration_termsandcond_textview);
 
         Assert.assertNotNull(holder.mSchoolsSpinner);
+        Assert.assertNotNull(holder.mSchoolsProgressBar);
         Assert.assertNotNull(holder.mUserSpinner);
         Assert.assertNotNull(holder.mFirstNameEditText);
         Assert.assertNotNull(holder.mLastNameEditText);
@@ -39,6 +42,7 @@ public class RegistrationViewHolder {
     }
 
     public Spinner mSchoolsSpinner;
+    public ProgressBar mSchoolsProgressBar;
     public Spinner mUserSpinner;
     public EditText mFirstNameEditText;
     public EditText mLastNameEditText;

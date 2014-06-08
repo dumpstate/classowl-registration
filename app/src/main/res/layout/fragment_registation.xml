@@ -20,6 +20,15 @@
                 android:layout_below="@id/registration_header_space"
                 android:contentDescription="@string/registration_schools_contentdesc"/>
 
+            <ProgressBar
+                android:id="@+id/registration_schools_progress_bar"
+                style="@style/registration_spinner"
+                android:visibility="gone"
+                android:layout_below="@id/registration_header_space"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                 />
+
             <Spinner
                 android:id="@+id/registration_user_spinner"
                 style="@style/registration_spinner"

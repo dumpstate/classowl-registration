@@ -31,7 +31,7 @@
     <string name="registration_signup_contentdesc">Sign up button</string>
 
     <string name="registration_termsandconds_text">
-        By clicking "Sign up" you agree with\n
+        By clicking \"Sign up\" you agree with\n
         <a href="https://www.classowl.com/terms">Terms and Conditions</a>
     </string>
 
@@ -40,10 +40,5 @@
         <item>Teacher</item>
     </string-array>
     <!-- X RegistrationFragment -->
-
-    <string-array name="registration_schools">
-        <item>Warsaw University</item>
-        <item>Warsaw University of Technology</item>
-    </string-array>
 
 </resources>
