@@ -11,6 +11,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.JsonWriter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,8 @@ import com.classowl.app.model.School;
 import com.classowl.app.service.UiDataFeedIntentService;
 import com.classowl.app.viewholder.RegistrationViewHolder;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +91,9 @@ public class RegistrationFragment extends Fragment {
         mData.appendToBundle(outState);
     }
 
+    /**
+     * Restores state of the view. mData object should be initialized first.
+     */
     private void restoreViewState() {
         if(mData.mSchool >= 0) {
             mViewHolder.mSchoolsSpinner.setSelection(mData.mSchool);
@@ -100,6 +107,9 @@ public class RegistrationFragment extends Fragment {
         mViewHolder.mPasswordEditText.setText(mData.mPassword);
     }
 
+    /**
+     * Updates mData object with the entered values.
+     */
     private void updateData() {
         mData.mSchool = mViewHolder.mSchoolsSpinner.getSelectedItemPosition();
         mData.mUserType = mViewHolder.mUserSpinner.getSelectedItemPosition();
@@ -109,16 +119,63 @@ public class RegistrationFragment extends Fragment {
         mData.mPassword = mViewHolder.mPasswordEditText.getText().toString();
     }
 
+    /**
+     * Displays AlertDialog with the form data.
+     */
     private void showData() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage(mData.toJSON().toString());
+
+        final StringWriter sWriter = new StringWriter();
+        final JsonWriter jWriter = new JsonWriter(sWriter);
+        jWriter.setIndent("  ");
+        try {
+            jWriter.beginObject();
+            jWriter.name("school_id");
+            jWriter.value(
+                    ((HintSpinnerAdapter.Item<School>) mViewHolder.mSchoolsSpinner
+                            .getSelectedItem()).getValue().mId
+            );
+
+            jWriter.name("user_type");
+            jWriter.value(
+                    ((HintSpinnerAdapter.Item<String>) mViewHolder.mUserSpinner
+                            .getSelectedItem()).getValue()
+            );
+
+            jWriter.name("first_name");
+            jWriter.value(mData.mFirstName);
+
+            jWriter.name("last_name");
+            jWriter.value(mData.mLastName);
+
+            jWriter.name("email");
+            jWriter.value(mData.mEmail);
+
+            jWriter.name("password");
+            jWriter.value(mData.mPassword);
+
+            jWriter.endObject();
+            jWriter.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to JSONize data.");
+        }
+
+        builder.setMessage(sWriter.toString());
         builder.show();
     }
 
+    /**
+     * Enables or disables 'Sign up' button - depending whether for form is valid.
+     */
     private void enableButton() {
         mViewHolder.mSignUpButton.setEnabled(isFormValid());
     }
 
+    /**
+     * Checks whether the form is valid.
+     *
+     * @return true if form is valid, false otherwise
+     */
     private boolean isFormValid() {
         if(mViewHolder.mSchoolsSpinner.isEnabled()) {
             if (((HintSpinnerAdapter.Item) mViewHolder.mSchoolsSpinner.getSelectedItem()).isHint())
@@ -150,11 +207,17 @@ public class RegistrationFragment extends Fragment {
         requestFeedUi();
     }
 
+    /**
+     * Initializing on change listeners on the whole formulae. Each listener should
+     * try to enable button, by calling enableButton().
+     */
     private void initOnChangeListeners() {
         mViewHolder.mSchoolsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 enableButton();
+                // Checking, whether current value is a hint. If not, marking view as checked.
+                // That has been introduces, because of different text color for hint label.
                 if (view != null && mViewHolder.mSchoolsSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mSchoolsSpinner.getSelectedItem()).isHint())
                         ((CheckedTextView) (view)).setChecked(true);
@@ -169,6 +232,8 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 enableButton();
+                // Checking, whether current value is a hint. If not, marking view as checked.
+                // That has been introduces, because of different text color for hint label.
                 if (view != null && mViewHolder.mUserSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mUserSpinner.getSelectedItem()).isHint())
                         ((CheckedTextView) (view)).setChecked(true);
@@ -237,39 +302,57 @@ public class RegistrationFragment extends Fragment {
         });
     }
 
+    /**
+     * Initializing 'Sign up' button. Setting onClickListener.
+     */
     private void initButton() {
         mViewHolder.mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // update the mData variable first
                 updateData();
+                // display message with the mData content
                 showData();
             }
         });
     }
 
+    /**
+     * Posts a request to the UiDataFeedIntentService, for retrieving remote data that
+     * ui depends on.
+     */
     private void requestFeedUi() {
         if(mData.mSchools == null) {
             Intent intent = new Intent(mContext, UiDataFeedIntentService.class);
             intent.putExtra(Constants.MSG_TYPE, Constants.MSG_GET_SCHOOLS);
             mContext.startService(intent);
+            // make the progress bar visible
             mViewHolder.mSchoolsProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
+    /**
+     * Initializing TextView, such that hyperlink is clickable.
+     */
     private void initHyperlink() {
         mViewHolder.mTermsAndCondTextView
                 .setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    /**
+     * Initializing action bar - setting title and implementing on back button clicked handler.
+     */
     private void initActionBar() {
         final View actionBarView = getActivity().getActionBar().getCustomView();
         final TextView title = (TextView)actionBarView.findViewById(R.id.action_bar_title);
         title.setText(R.string.registration_action_bar_title);
 
+        // initialize back button clicked handler
         final ImageView back = (ImageView)actionBarView.findViewById(R.id.action_bar_back_arrow);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // close the app
                 getActivity().finish();
             }
         });
@@ -356,9 +439,9 @@ public class RegistrationFragment extends Fragment {
 
     /**
      * BroadcastReceiver expecting SchoolMsg passed in the intent serializable extra
-     * under Constants.SHOOLS_DATA identifier. If the schools array is empty,
-     * appropriate Toast message is being displayed, otherwise shcools spinner
-     * is beeing filled with data and progress bar is being dismissed.
+     * under Constants.SCHOOLS_DATA identifier. If the schools array is empty,
+     * appropriate Toast message is being displayed, otherwise schools spinner
+     * is being filled with data and progress bar is being dismissed.
      */
     private BroadcastReceiver mUiDataFeedBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -369,7 +452,7 @@ public class RegistrationFragment extends Fragment {
                 if(schools.mSchools != null && schools.mSchools.length > 0) {
                     mData.mSchools = schools.mSchools;
 
-                    // fill schools spinner with shools data
+                    // fill schools spinner with schools data
                     HintSpinnerAdapter.setAdapter(
                             mContext,
                             mViewHolder.mSchoolsSpinner,

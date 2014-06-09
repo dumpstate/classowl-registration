@@ -10,6 +10,9 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * RegistrationFragmentData holder - fragment should save state via this class.
+ */
 public class RegistrationFragmentData {
     private static final String TAG = RegistrationFragmentData.class.getSimpleName();
 
@@ -21,6 +24,10 @@ public class RegistrationFragmentData {
     private static final String ARG_PASSWORD = "reg_password";
     private static final String ARG_SCHOOLS = "reg_schools";
 
+    /**
+     * Factory method, for making an RegistrationFragmentData out of
+     * bundle (e.g. savedInstanceState).
+     */
     public static RegistrationFragmentData get(final Bundle bundle) {
         final RegistrationFragmentData data = new RegistrationFragmentData();
 
@@ -37,6 +44,9 @@ public class RegistrationFragmentData {
         return data;
     }
 
+    /**
+     * Appending all the fields data into bundle.
+     */
     public Bundle appendToBundle(final Bundle bundle) {
         Assert.assertNotNull(bundle);
 
