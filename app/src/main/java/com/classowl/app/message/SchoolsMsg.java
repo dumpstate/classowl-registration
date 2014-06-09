@@ -11,6 +11,9 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+/**
+ * Message carrying the array of School objects.
+ */
 public class SchoolsMsg implements Serializable {
     private static final String TAG = SchoolsMsg.class.getSimpleName();
 
@@ -18,6 +21,9 @@ public class SchoolsMsg implements Serializable {
 
     public School[] mSchools;
 
+    /**
+     * Retrieves the SchoolMsg from the JSON returned from ClassOwl API.
+     */
     public static SchoolsMsg fromJsonStr(final String jsonStr) {
         final SchoolsMsg schoolsMsg = new SchoolsMsg();
         if(!TextUtils.isEmpty(jsonStr)) {

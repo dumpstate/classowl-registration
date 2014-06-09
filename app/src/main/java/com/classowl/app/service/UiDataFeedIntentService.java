@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 public class UiDataFeedIntentService extends IntentService {
     private static final String TAG = UiDataFeedIntentService.class.getSimpleName();
 
+    public static final String HTTP_SCHOOLS_URL = "https://api.classowl.com/v1/schools?format=json";
+
     private final LocalBroadcastManager mBroadcastManager;
 
     public UiDataFeedIntentService() {
@@ -65,7 +67,7 @@ public class UiDataFeedIntentService extends IntentService {
                     final Intent i = new Intent(Constants.SCHOOLS_ACTION);
                     i.putExtra(
                             Constants.SCHOOLS_DATA,
-                            SchoolsMsg.fromJsonStr(get(Constants.HTTP_SCHOOLS_URL)));
+                            SchoolsMsg.fromJsonStr(get(HTTP_SCHOOLS_URL)));
                     mBroadcastManager.sendBroadcast(i);
                     break;
                 }

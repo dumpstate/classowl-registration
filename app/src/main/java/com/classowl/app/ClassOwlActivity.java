@@ -10,6 +10,9 @@ import com.classowl.app.fragment.RegistrationFragment;
 
 public class ClassOwlActivity extends FragmentActivity {
 
+    /**
+     * TODO: Activity should have more states. Right now only REGISTRATION were required.
+     */
     public static enum State {
         REGISTRATION
     };
@@ -30,6 +33,9 @@ public class ClassOwlActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * Setting ActionBar into custom mode.
+     */
     private void setCustomActionBar() {
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getActionBar().setCustomView(R.layout.action_bar);

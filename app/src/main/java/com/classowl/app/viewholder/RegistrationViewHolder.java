@@ -11,8 +11,15 @@ import com.classowl.app.R;
 
 import junit.framework.Assert;
 
+/**
+ * Class for holding references to view items of RegistrationFragment.
+ */
 public class RegistrationViewHolder {
 
+    /**
+     * Factory method making RegistrationViewHolder out of a rootView.
+     * Knows the IDs of the fragment View items.
+     */
     public static RegistrationViewHolder get(View rootView) {
         Assert.assertNotNull(rootView);
 

@@ -7,6 +7,11 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+/**
+ * School model representation.
+ *
+ * TODO: only ID and NAME has been implemented. Probably more data 'll be required.
+ */
 public class School implements Serializable {
     public static final String TAG = School.class.getSimpleName();
 
