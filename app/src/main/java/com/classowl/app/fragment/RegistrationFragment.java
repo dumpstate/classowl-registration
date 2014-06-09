@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +30,7 @@ import com.classowl.app.model.School;
 import com.classowl.app.service.UiDataFeedIntentService;
 import com.classowl.app.viewholder.RegistrationViewHolder;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrationFragment extends Fragment {
@@ -158,64 +155,85 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 enableButton();
-                if(view != null && mViewHolder.mSchoolsSpinner.isEnabled()) {
+                if (view != null && mViewHolder.mSchoolsSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mSchoolsSpinner.getSelectedItem()).isHint())
                         ((CheckedTextView) (view)).setChecked(true);
                 }
             }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         mViewHolder.mUserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 enableButton();
-                if(view != null && mViewHolder.mUserSpinner.isEnabled()) {
+                if (view != null && mViewHolder.mUserSpinner.isEnabled()) {
                     if (!((HintSpinnerAdapter.Item) mViewHolder.mUserSpinner.getSelectedItem()).isHint())
                         ((CheckedTextView) (view)).setChecked(true);
                 }
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         mViewHolder.mFirstNameEditText.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 enableButton();
             }
 
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
         mViewHolder.mLastNameEditText.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 enableButton();
             }
 
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
         mViewHolder.mEmailEditText.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 enableButton();
             }
 
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
         mViewHolder.mPasswordEditText.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 enableButton();
             }
 
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -257,11 +275,19 @@ public class RegistrationFragment extends Fragment {
         });
     }
 
+    /**
+     * Initializing shools & user type spinners.
+     */
     private void initSpinners() {
         initSchoolsSpinner();
         initUserTypeSpinner();
     }
 
+    /**
+     * Initializing schools spinner - if there is no data in the mData.mSchools variable,
+     * then school spinner is initialized with the default value only, otherwise the
+     * appropriate adapter is being set filled with schools data.
+     */
     private void initSchoolsSpinner() {
         if(mData.mSchools == null) {
             mViewHolder.mSchoolsSpinner.setAdapter(
@@ -276,39 +302,64 @@ public class RegistrationFragment extends Fragment {
             HintSpinnerAdapter.setAdapter(
                     mContext,
                     mViewHolder.mSchoolsSpinner,
-                    getSchoolsNames(mData.mSchools),
-                    getString(R.string.registration_schools_hint)
+                    getString(R.string.registration_schools_hint),
+                    getSchoolsItems(mData.mSchools)
             );
         }
     }
 
+    /**
+     * Initializing user type spinner - retrieving R.array.registration_user_type, from
+     * resources and setting HintSpinnerAdapter onto user spinner.
+     */
     private void initUserTypeSpinner() {
-        initSpinner(
-                mViewHolder.mUserSpinner,
-                R.array.registration_user_type,
-                R.string.registration_users_hint);
-    }
-
-    private void initSpinner(final Spinner spinner, final int arrRes, final int hintId) {
         HintSpinnerAdapter.setAdapter(
                 mContext,
-                spinner,
-                Arrays.asList(getResources().getStringArray(arrRes)),
-                getString(hintId));
+                mViewHolder.mUserSpinner,
+                getString(R.string.registration_users_hint),
+                getUserTypeItems(getResources().getStringArray(R.array.registration_user_type))
+        );
     }
 
-    private List<String> getSchoolsNames(final School[] schools) {
-        final LinkedList<String> names = new LinkedList<String>();
+    /**
+     * Mapping array of Schools into List of Item<School> to use with HintSpinnerAdapter.
+     *
+     * @param schools array of schools
+     * @return list of Item<School>
+     */
+    private List<HintSpinnerAdapter.Item<School>> getSchoolsItems(final School[] schools) {
+        final ArrayList<HintSpinnerAdapter.Item<School>> items
+                = new ArrayList<HintSpinnerAdapter.Item<School>>();
         if(schools != null) {
-            for(School school: schools) {
-                if(school != null) {
-                    names.add(school.mName);
-                }
-            }
+            for(School school: schools)
+                items.add(new HintSpinnerAdapter.Item<School>(school.mName, school));
         }
-        return names;
+        return items;
     }
 
+    /**
+     * Mapping array of Strings - user types into List of Item<String>
+     * to use with HintSpinnerAdapter.
+     *
+     * @param userTypes array of userTypes
+     * @return list of Item<String>
+     */
+    private List<HintSpinnerAdapter.Item<String>> getUserTypeItems(final String[] userTypes) {
+        final ArrayList<HintSpinnerAdapter.Item<String>> items
+                = new ArrayList<HintSpinnerAdapter.Item<String>>();
+        if(userTypes != null) {
+            for(String userType: userTypes)
+                items.add(new HintSpinnerAdapter.Item<String>(userType, userType.toLowerCase()));
+        }
+        return items;
+    }
+
+    /**
+     * BroadcastReceiver expecting SchoolMsg passed in the intent serializable extra
+     * under Constants.SHOOLS_DATA identifier. If the schools array is empty,
+     * appropriate Toast message is being displayed, otherwise shcools spinner
+     * is beeing filled with data and progress bar is being dismissed.
+     */
     private BroadcastReceiver mUiDataFeedBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -318,11 +369,12 @@ public class RegistrationFragment extends Fragment {
                 if(schools.mSchools != null && schools.mSchools.length > 0) {
                     mData.mSchools = schools.mSchools;
 
+                    // fill schools spinner with shools data
                     HintSpinnerAdapter.setAdapter(
                             mContext,
                             mViewHolder.mSchoolsSpinner,
-                            getSchoolsNames(schools.mSchools),
-                            getString(R.string.registration_schools_hint)
+                            getString(R.string.registration_schools_hint),
+                            getSchoolsItems(schools.mSchools)
                     );
 
                     mViewHolder.mSchoolsSpinner.setEnabled(true);

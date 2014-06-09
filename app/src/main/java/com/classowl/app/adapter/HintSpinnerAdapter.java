@@ -11,29 +11,80 @@ import com.classowl.app.R;
 
 import junit.framework.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
+/**
+ * ArrayAdapter carrying items of type Item. Introduced, in order to display
+ * default 'hint' value on the spinner, if no value has been selected.
+ */
+public class HintSpinnerAdapter<T> extends ArrayAdapter<HintSpinnerAdapter.Item<T>> {
 
-    public static void setAdapter(
-            final Context context,
-            final Spinner spinner,
-            final List<String> labels,
-            final String hint) {
-        Assert.assertNotNull(spinner);
-        Assert.assertNotNull(labels);
-        Assert.assertNotNull(hint);
+    private static final int HINT_LOCATION = 0;
 
-        final ArrayList<Item> items = new ArrayList<Item>();
+    /**
+     * Adapter Item, that apart from value to display, carries the information,
+     * whether the item is a hint. Used to setting proper text color. Has additional
+     * mObject value, for carrying arbitrary value.
+     */
+    public static class Item<T> {
+        private final T mObject;
+        private final String mLabel;
+        private final boolean mIsHint;
 
-        items.add(new Item(hint, true));
-        for(String label: labels) {
-            items.add(new Item(label, false));
+        public Item(final String text, final T object) {
+            mLabel = text;
+            mIsHint = false;
+            mObject = object;
         }
 
-        final HintSpinnerAdapter adapter =
-                new HintSpinnerAdapter(
+        public Item(final String text, final boolean isHint, final T object) {
+            mLabel = text;
+            mIsHint = isHint;
+            mObject = object;
+        }
+
+        public String getText() {
+            return mLabel;
+        }
+
+        public boolean isHint() {
+            return mIsHint;
+        }
+
+        public T getValue() {
+            return mObject;
+        }
+
+        @Override
+        public String toString() {
+            return mLabel;
+        }
+
+    }
+
+    /**
+     * Helper method, that is setting the HintSpinnerAdapter object as an adapter,
+     * for a given Spinner instance.
+     *
+     * @param context context, on which adapter is working
+     * @param spinner Spinner instance that adapter will be attached to
+     * @param items items to display
+     * @param hint 'hint' value to display as default
+     */
+    public static <T> void setAdapter(
+            final Context context,
+            final Spinner spinner,
+            final String hint,
+            final List<Item<T>> items) {
+        Assert.assertNotNull(spinner);
+        Assert.assertNotNull(items);
+        Assert.assertNotNull(hint);
+
+        // adding hint item, at the hint location
+        items.add(HINT_LOCATION, new Item<T>(hint, true, null));
+
+        final HintSpinnerAdapter<T> adapter =
+                new HintSpinnerAdapter<T>(
                         context,
                         R.layout.spinner_item,
                         items);
@@ -42,31 +93,10 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
         spinner.setAdapter(adapter);
     }
 
-    public static class Item {
-        private final String mText;
-        private final boolean mIsHint;
-
-        public Item(final String text, final boolean isHint) {
-            mText = text;
-            mIsHint = isHint;
-        }
-
-        public String getText() {
-            return mText;
-        }
-
-        public boolean isHint() {
-            return mIsHint;
-        }
-
-        @Override
-        public String toString() {
-            return mText;
-        }
-
-    }
-
-    public HintSpinnerAdapter(Context context, int resource, List<Item> items) {
+    /**
+     * Default and only constructor.
+     */
+    public HintSpinnerAdapter(Context context, int resource, List<Item<T>> items) {
         super(context, resource, items);
     }
 
@@ -79,8 +109,9 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         final View view;
-        if(position == 0) {
+        if(position == HINT_LOCATION) {
             final TextView textView = new TextView(getContext());
+            // hiding the hint and setting height to 0
             textView.setVisibility(View.GONE);
             textView.setHeight(0);
             view = textView;
