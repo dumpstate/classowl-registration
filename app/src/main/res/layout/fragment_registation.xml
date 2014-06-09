@@ -18,6 +18,7 @@
                 android:id="@+id/registration_schools_spinner"
                 style="@style/registration_spinner"
                 android:layout_below="@id/registration_header_space"
+                android:prompt="@string/registration_schools_hint"
                 android:contentDescription="@string/registration_schools_contentdesc"/>
 
             <ProgressBar
@@ -33,6 +34,7 @@
                 android:id="@+id/registration_user_spinner"
                 style="@style/registration_spinner"
                 android:layout_below="@id/registration_schools_spinner"
+                android:prompt="@string/registration_users_hint"
                 android:contentDescription="@string/registration_users_contentdesc"/>
 
             <EditText

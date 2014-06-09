@@ -1,8 +1,11 @@
 package com.classowl.app.adapter;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.classowl.app.R;
 
@@ -24,10 +27,10 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
 
         final ArrayList<Item> items = new ArrayList<Item>();
 
+        items.add(new Item(hint, true));
         for(String label: labels) {
             items.add(new Item(label, false));
         }
-        items.add(new Item(hint, true));
 
         final HintSpinnerAdapter adapter =
                 new HintSpinnerAdapter(
@@ -37,7 +40,6 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(items.size() - 1);
     }
 
     public static class Item {
@@ -68,9 +70,23 @@ public class HintSpinnerAdapter extends ArrayAdapter<HintSpinnerAdapter.Item> {
         super(context, resource, items);
     }
 
+    /**
+     * Overriding, because of the workaround for providing default text, when
+     * no item is selected. That's not the most efficient solution - the views
+     * are not using convert view while being created. The best would be to
+     * override a spinner.
+     */
     @Override
-    public int getCount() {
-        return super.getCount() - 1;
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        final View view;
+        if(position == 0) {
+            final TextView textView = new TextView(getContext());
+            textView.setVisibility(View.GONE);
+            textView.setHeight(0);
+            view = textView;
+        } else {
+            view =super.getDropDownView(position, null, parent);
+        }
+        return view;
     }
-
 }
