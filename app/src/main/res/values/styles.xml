@@ -76,6 +76,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:lineSpacingExtra">@dimen/registration_footer_line_padding</item>
     </style>
 
     <style name="registration_space">

@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.util.JsonWriter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -337,6 +340,43 @@ public class RegistrationFragment extends Fragment {
     private void initHyperlink() {
         mViewHolder.mTermsAndCondTextView
                 .setMovementMethod(LinkMovementMethod.getInstance());
+
+        // remove TextView underlines
+        removeUnderlines(mViewHolder.mTermsAndCondTextView);
+    }
+
+    /**
+     * Removes underlines from a given TextView.
+     * Thanks to Reuben Scratton from Stackoverflow.
+     * http://stackoverflow.com/questions/4096851/remove-underline-from-links-in-textview-
+     *
+     * TODO: probably should be refactored to some util class
+     */
+    private void removeUnderlines(final TextView tv) {
+        class URLSpanNoUnderline extends URLSpan {
+            public URLSpanNoUnderline(String url) {
+                super(url);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint tp) {
+                super.updateDrawState(tp);
+                tp.setUnderlineText(false);
+            }
+        }
+
+        if(tv != null) {
+            final Spannable s = (Spannable) tv.getText();
+            final URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+            for(URLSpan span: spans) {
+                final int start = s.getSpanStart(span);
+                final int end = s.getSpanEnd(span);
+                s.removeSpan(span);
+                span = new URLSpanNoUnderline(span.getURL());
+                s.setSpan(span, start, end, 0);
+            }
+            tv.setText(s);
+        }
     }
 
     /**

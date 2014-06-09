@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * IntentService for retrieving UI dependent data.
+ */
 public class UiDataFeedIntentService extends IntentService {
     private static final String TAG = UiDataFeedIntentService.class.getSimpleName();
 
@@ -30,6 +33,9 @@ public class UiDataFeedIntentService extends IntentService {
         mBroadcastManager = LocalBroadcastManager.getInstance(this);
     }
 
+    /**
+     * Retrieves string with data under given http url.
+     */
     private static String get(final String url) {
         InputStream is = null;
         try {
@@ -64,6 +70,7 @@ public class UiDataFeedIntentService extends IntentService {
         if(intent.hasExtra(Constants.MSG_TYPE)) {
             switch(intent.getIntExtra(Constants.MSG_TYPE, -1)) {
                 case Constants.MSG_GET_SCHOOLS: {
+                    // get the schools data, and broadcast intent with result
                     final Intent i = new Intent(Constants.SCHOOLS_ACTION);
                     i.putExtra(
                             Constants.SCHOOLS_DATA,

@@ -26,6 +26,8 @@
     <dimen name="registration_input_item_bottom_padding">10dp</dimen>
 
     <dimen name="registration_space_height">18dp</dimen>
+
+    <dimen name="registration_footer_line_padding">6dp</dimen>
     <!-- X RegistrationFragment -->
 
     </resources>
